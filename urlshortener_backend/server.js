@@ -1,7 +1,7 @@
-const express = require('express');
-const morgan = require('morgan');
+const express  = require('express');
+const logger   = require('morgan');
 const mongoose = require('mongoose');
-const cors = require('cors');
+const cors     = require('cors');
 
 const ShortUrlRouter = require('./routers/shorturl.router')
 const app = express();
@@ -10,7 +10,7 @@ const app = express();
 require('dotenv').config();
 
 // logger middleware
-app.use(morgan('dev'));
+app.use(logger('dev'));
 
 // allow cross-origin communication
 app.use(cors());
@@ -23,10 +23,10 @@ app.use(express.urlencoded({extended: false}));
 const PORT = process.env.PORT || 5000
 
 // mongodb connection
-mongoose.connect(
-    process.env.ATLAS_URI,
-    {useNewUrlParser: true, useUnifiedTopology: true}
-);
+mongoose.connect(process.env.ATLAS_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 const connection = mongoose.connection;
 connection.on('error', err=> {
     console.error(err);
@@ -38,6 +38,9 @@ connection.once('connected', (err, res)=> {
     });
 })
 
+// custom middlewares
+
 // routes
 
 app.use('/shorturl', ShortUrlRouter);
+

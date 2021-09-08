@@ -3,18 +3,21 @@ const router = express.Router();
 
 const { 
     getShortUrls, 
-    redirectShortUrl, 
+    getUrlRedirect, 
     addShortUrl, 
-    deleteShortUrl} = require('../controllers/shorturl.controller');
+    deleteShortUrl,
+    validateUrl,
+    updateClickCount} = require('../controllers/shorturl.controller');
 
 router.get('/redirect', (req, res)=> {
     res.json({
         message: "NOOB!"
     })
 })
+
 router.get('/', getShortUrls);
-router.post('/', addShortUrl);
-router.get('/:id', redirectShortUrl);
-// router.delete('/:id', deleteShortUrl());
+router.post('/', validateUrl, addShortUrl);
+router.get('/:id', updateClickCount, getUrlRedirect);
+router.delete('/:id', deleteShortUrl);
 
 module.exports = router;
